@@ -9,13 +9,10 @@ import router from '@/router/index';
 
 // import store from './store'
 // import conf from "@/assets/js/conf.js";
+import vueSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
 
-// import VueAwesomeSwiper from 'vue-awesome-swiper'
-
-// require styles
-// import 'swiper/dist/css/swiper.css'
-
-// Vue.use(VueAwesomeSwiper, /* { default global options } */)
+Vue.use(vueSwiper)
 
 // import ElementUI from 'element-ui';
 
@@ -61,8 +58,8 @@ Vue.use(MintUI)
 // Vue.component(Cell.name, Cell)
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: './static/imgs/ddefault.jpg',//这个是请求失败后显示的图片
-  loading: './static/imgs/loading.gif',//这个是加载的loading过渡效果
+  error: './static/images/ddefault.jpg',//这个是请求失败后显示的图片
+  loading: './static/images/loading.gif',//这个是加载的loading过渡效果
   try: 1 // 这个是加载图片数量
 })
 

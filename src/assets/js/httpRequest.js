@@ -59,7 +59,7 @@ http.interceptors.response.use(response => {
 
  
     // console.log(1,response.data)
-    if (response.data && response.data.status ==200||response.data.code==0||response.data.state=='success'||response.data.code=='success') { 
+    if (response.data && response.data.status ==200||response.data.code==200||response.data.code==0||response.data.state=='success'||response.data.code=='success') { 
       // debugger
       return response.data;
     }else{

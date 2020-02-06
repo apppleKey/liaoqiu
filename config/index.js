@@ -26,7 +26,7 @@ module.exports = {
     port: 8088,
     autoOpenBrowser: false,
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/coor/docs/',
+    assetsPublicPath: '/',
     host: 'shine@itech8.net',
     proxyTable: {
         '/index': {

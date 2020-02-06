@@ -1,6 +1,5 @@
 
 <template>
-  <!-- <div> 123123123</div> -->
   <router-view />
 </template>
 
@@ -33,7 +32,6 @@ export default {
         false
       );
     }
-    // rem设置
 
   }
 };
