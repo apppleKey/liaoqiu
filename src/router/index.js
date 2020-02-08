@@ -9,6 +9,8 @@ const newVue = new Vue()
 const router = new VueRouter({
   // mode: 'history',
   routes: [
+    {path:'/',redirect:'/PC/index'}
+    ,
     {
       path: "/h5",
       name: "app",
@@ -37,9 +39,24 @@ const router = new VueRouter({
           component: resolve => require(['@/views/PC/home.vue'], resolve),
           meta: {
             needLogin: false,
-            needHeaderFooter: false
+            needHeaderFooter: true
           }
-        }
+        },{
+          path: "news/:id",
+          name: "newsDetails",
+          component: resolve => require(['@/views/PC/news/details.vue'], resolve),
+          meta: {
+            needLogin: false,
+            needHeaderFooter: true
+          }
+        },,{
+          path: "plan/:id",
+          name: "planDetails",
+          component: resolve => require(['@/views/PC/plan/details.vue'], resolve),
+          meta: {
+            needLogin: false,
+            needHeaderFooter: true
+          }}
       ]
     },
     {

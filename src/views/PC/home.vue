@@ -1,15 +1,6 @@
 <template>
   <div class="pc_container">
-    <div class="header">
-      <div class="nav">
-        <a href="/" target="_self">
-          <img class="logo" :src="'./static/images/logo.png'" alt />
-        </a>
-        <div class="userlogin">
-          登录 | 注册
-          <img class="loginlogo" :src="'./static/images/login.png'" alt />
-        </div>
-      </div>
+    <div class="banner_conn">
       <div class="banner">
         <swiper :options="swiperOption">
           <swiper-slide class="swiper-slide" v-for="(item,index) in bannerOpt" :key="index">
@@ -35,109 +26,108 @@ height:120px;"
         </swiper>
       </div>
       <div class="friendLinks">
-        <a href="https://zhibo18.live">
+        <a href="https://zhibo18.live" target="_blank">
           <img :src="'./static/images/wzzb.png'" alt title="王者体育直播" />
         </a>
-        <a href="https://zhibo18.live">
+        <a href="https://m.dp18.me/#/" target="_blank">
           <img :src="'./static/images/bcd.png'" alt title="B_C点评" />
         </a>
-        <a href="https://www.fire18.tv">
+        <a href="https://www.fire18.tv" target="_blank">
           <img :src="'./static/images/fire18.png'" alt title="烽火电竞" />
         </a>
       </div>
     </div>
 
-      <div class="lanmu banxin">
-        <div class="lanmu_header">
-          <div class="lanmu_name">资讯</div>
-          <div class="lanmu_asyn">
-            <span>NEWS</span>
-          </div>
+    <div class="lanmu banxin">
+      <div class="lanmu_header">
+        <div class="lanmu_name">资讯</div>
+        <div class="lanmu_asyn">
+          <span>NEWS</span>
         </div>
-        <div class="lanmu_body">
-          <div class="lanmu_list">
-            <div class="lanmu_item" v-for="item in newsList" :key="item.pid">
-              <div class="li_title">{{item.post_title}}</div>
-              <div class="li_info">
-                <img class="info_img" :src="item.smeta.thumb" alt />
-                <div class="info_txt">{{item.post_title}}</div>
-              </div>
+      </div>
+      <div class="lanmu_body">
+        <div class="lanmu_list">
+          <a
+            :href="'#/PC/news/'+item.pid"
+            class="lanmu_item"
+            v-for="item in newsList"
+            :key="item.pid"
+          >
+            <div class="li_title">{{item.post_title}}</div>
+            <div class="li_info">
+              <img class="info_img" :src="item.smeta.thumb" alt />
+              <div class="info_txt">{{item.post_title}}</div>
             </div>
-          </div>
-          <loading :loadingStatus="newsLoadingStatus" @loadmore="getMoreNews" />
+          </a>
         </div>
+        <loading :loadingStatus="newsLoadingStatus" @loadmore="getMoreNews" />
       </div>
+    </div>
 
-      <div class="adj">
-        <div class="banxin">
-          <img :src="'./static/images/lpl.png'" alt />
+    <div class="adj">
+      <div class="banxin">
+        <img :src="'./static/images/lpl.png'" alt />
+      </div>
+    </div>
+    <div class="lanmu tuidan banxin">
+      <div class="lanmu_header">
+        <div class="lanmu_name">百家推单</div>
+        <div class="lanmu_asyn">
+          <span>BETTING</span>
         </div>
       </div>
-      <div class="lanmu tuidan banxin">
-        <div class="lanmu_header">
-          <div class="lanmu_name">百家推单</div>
-          <div class="lanmu_asyn">
-            <span>BETTING</span>
-          </div>
-        </div>
-        <div class="lanmu_body">
-          <div class="lanmu_list">
-            <li class="recommendItem" v-for="item in planList" :key="item.planInfo.planId">
-              <dl class="itemAnchor">
-                <dt>
-                  <a target="_blank">
-                    <img v-lazy="item.anchorSummaryInfo.anchorInfo.avatar" />
-                  </a>
-                  <strong>
+      <div class="lanmu_body">
+        <div class="lanmu_list">
+          <li class="recommendItem" v-for="item in planList" :key="item.planInfo.planId">
+            <dl class="itemAnchor">
+              <dt>
+                <a target="_blank" :href="'#/PC/plan/'+item.planInfo.planId">
+                  <img v-lazy="item.anchorSummaryInfo.anchorInfo.avatar" />
+                </a>
+                <!-- <strong>
                     <a target="_blank">{{item.anchorSummaryInfo.anchorInfo.username}}</a>
-                  </strong>
-                </dt>
+                </strong>-->
+              </dt>
 
-                <dd
-                  v-for="(subItem,subIndex) in item.anchorSummaryInfo.winLabelList"
-                  :key="'hh'+subIndex"
-                >{{subItem.content}}</dd>
-              </dl>
-              <div class="itemMain">
-                <div class="itemTitle">
-                  <a
-                    href="/topic/PC/recommendEvents/details.html?planId=item.planInfo.planId"
-                    target="_blank"
-                  >{{item.planInfo.planTitle}}</a>
-                </div>
-                <div class="itemContant">
-                  <div class="itemOther">
-                    <strong
-                      :class="'itemEventTag itemEventTag_'+item.planInfo.playType "
-                    >{{item.planInfo.playTypeContent}}</strong>
-                    <b class="itemEventTimer">{{dateFormatCustom(item.planInfo.startTimestamp)}}</b>
-                  </div>
-                  <a
-                    class="itemDesc"
-                    href="/topic/PC/recommendEvents/details.html?planId=item.planInfo.planId"
-                    target="_blank"
-                  >{{item.planInfo.matchName}}</a>
-                </div>
-                <div class="itemTimer">{{item.planInfo.timeDistance}}</div>
+              <dd
+                v-for="(subItem,subIndex) in item.anchorSummaryInfo.winLabelList"
+                :key="'hh'+subIndex"
+              >{{subItem.content}}</dd>
+            </dl>
+            <div class="itemMain">
+              <div class="itemTitle">
+                <a
+                  :href="'#/PC/plan/'+item.planInfo.planId"
+                  target="_blank"
+                >{{item.planInfo.planTitle}}</a>
               </div>
-            </li>
-            <!-- <div class="lanmu_item" v-for="item in newsList" :key="item.pid">
+              <div class="itemContant">
+                <div class="itemOther">
+                  <strong
+                    :class="'itemEventTag itemEventTag_'+item.planInfo.playType "
+                  >{{item.planInfo.playTypeContent}}</strong>
+                  <span class="itemLeagueMatch">{{item.planInfo.leagueMatch}}</span>
+                  <b class="itemEventTimer">{{dateFormatCustom(item.planInfo.startTimestamp)}}</b>
+                </div>
+                <a
+                  class="itemDesc"
+                  :href="'#/PC/plan/'+item.planInfo.planId"
+                  target="_blank"
+                >{{item.planInfo.matchName}}</a>
+              </div>
+              <div class="itemTimer">{{item.planInfo.timeDistance}}</div>
+            </div>
+          </li>
+          <!-- <div class="lanmu_item" v-for="item in newsList" :key="item.pid">
               <div class="li_title">{{item.post_title}}</div>
               <div class="li_info">
                 <img class="info_img" :src="item.smeta.thumb" alt />
                 <div class="info_txt">{{item.post_title}}</div>
               </div>
-            </div>-->
-          </div>
-          <loading :loadingStatus="planLoadingStatus" @loadmore="getMorePlan" />
+          </div>-->
         </div>
+        <loading :loadingStatus="planLoadingStatus" @loadmore="getMorePlan" />
       </div>
-      <div class="footer">
-        <div class="banxin copyright">
-          2020 ACMilan.com 沪ICP备号
-          <br />
-            Powered By Hupu Sports
-        </div>
     </div>
   </div>
 </template>
@@ -181,7 +171,7 @@ export default {
   },
   created() {
     //   this.$store.dispatch("freshToken")
-    // this.getNews();
+    this.getNews();
     this.getPlan();
   },
   methods: {
@@ -334,38 +324,9 @@ export default {
     width: 1280px;
     margin: 0 auto;
   }
-  .header {
-    height: 985px;
-    background-color: #181818;
-    .nav {
-      height: 169px;
-      width: 1452px;
-      margin: 0 auto;
-      background: url("../../../static/images/lang.png") no-repeat 690px top /
-        607px 251px;
-      .logo {
-        margin-top: 54px;
-        width: 553px;
-        height: 80px;
-      }
-      .userlogin {
-        float: right;
-        width: 230px;
-        height: 50px;
-        background: rgba(70, 70, 70, 1);
-        text-align: center;
-        line-height: 50px;
-        font-size: 22px;
-        font-weight: 600;
-        color: rgba(255, 255, 255, 1);
-        cursor: pointer;
-        .loginlogo {
-          width: 20px;
-          height: 20px;
-          margin-left: 10px;
-        }
-      }
-    }
+  .banner_conn {
+    background: #181818;
+    overflow: hidden;
   }
   .banner {
     width: 1280px;
@@ -411,6 +372,7 @@ export default {
     }
     .lanmu_body {
       .lanmu_list {
+        margin-bottom: 20px;
         .lanmu_item {
           display: inline-block;
           margin-right: 40px;
@@ -482,19 +444,29 @@ export default {
       border-bottom: 1px dotted #e5e5e5;
       overflow: hidden;
       margin-top: 25px;
+      //   height: 320px;
+      padding: 19px 50px;
+      min-height: 320px;
+      border: 2px solid rgba(238, 238, 238, 1);
+      background: linear-gradient(
+        0deg,
+        rgba(246, 246, 246, 1) 0%,
+        rgba(255, 255, 255, 1) 100%
+      );
     }
     .itemAnchor {
-      width: 130px;
+      width: 290px;
       float: left;
       overflow: hidden;
+      text-align: center;
     }
     .itemAnchor dt {
       overflow: hidden;
       text-align: center;
     }
     .itemAnchor dt img {
-      width: 51px;
-      height: 51px;
+      width: 161px;
+      height: 161px;
       border-radius: 50%;
       overflow: hidden;
       display: block;
@@ -503,8 +475,8 @@ export default {
     .itemAnchor dt strong {
       display: block;
       overflow: hidden;
-      height: 20px;
-      line-height: 20px;
+      height: 40px;
+      line-height: 40px;
       margin-bottom: 10px;
     }
     .itemAnchor dt strong a {
@@ -517,25 +489,26 @@ export default {
       color: #ff454f;
     }
     .itemAnchor dd {
-      width: 58px;
-      height: 20px;
-      border: 1px solid #ff454f;
-      font-size: 12px;
+      //   width: 58px;
+      display: inline-block;
+      height: 40px;
+      font-size: 24px;
+      padding: 0 20px;
       color: #ff454f;
       text-align: center;
-      line-height: 20px;
-      border-radius: 4px;
+      line-height: 36px;
       overflow: hidden;
-      float: left;
+      margin: 10px;
+      border: 2px solid rgba(253, 71, 84, 1);
+      border-radius: 4px;
     }
-    // .itemAnchor dd:nth-of-type(2n+2){float:right;}
     .itemMain {
-      margin-left: 150px;
+      margin-left: 297px;
       overflow: hidden;
     }
     .itemTitle {
       font-size: 24px;
-      height: 36px;
+      min-height: 36px;
       line-height: 36px;
       overflow: hidden;
       margin-bottom: 4px;
@@ -545,6 +518,8 @@ export default {
       text-overflow: ellipsis;
       white-space: nowrap;
       color: #333;
+      font-size: 36px;
+      line-height: 48px;
       overflow: hidden;
     }
     .itemTitle a:hover {
@@ -553,24 +528,34 @@ export default {
     .itemContant {
       background: #f1f1f1;
       border-radius: 4px;
-      padding: 10px;
+      padding: 20px;
+      margin: 10px 0;
       overflow: hidden;
     }
     .itemOther {
       overflow: hidden;
       margin-bottom: 5px;
     }
+    .itemLeagueMatch {
+      font-size: 32px;
+      font-family: Lantinghei SC;
+      font-weight: 400;
+      color: rgba(26, 156, 252, 1);
+      line-height: 36px;
+      float: left;
+      margin: 0 20px;
+    }
     .itemEventTag {
       border: 1px solid #ddd;
-      height: 18px;
-      line-height: 18px;
+      height: 40px;
+      line-height: 40px;
       padding: 0 10px;
       color: #6a62ff;
       display: block;
       float: left;
       font-weight: normal;
       border-radius: 20px;
-      font-size: 12px;
+      font-size: 24px;
       margin-right: 10px;
     }
     .itemEventTag_1 {
@@ -612,43 +597,49 @@ export default {
       display: block;
       color: #6a6a6a;
       float: left;
-      height: 20px;
       line-height: 20px;
-      overflow: hidden;
       font-weight: normal;
+      font-size: 32px;
+      font-weight: 400;
+      color: rgba(106, 106, 106, 1);
+      line-height: 36px;
     }
     .itemDesc {
       font-size: 16px;
       color: #333;
       display: block;
       overflow: hidden;
-      line-height: 24px;
-      min-height: 24px;
+      min-height: 36px;
       height: auto;
+      font-size: 32px;
+      font-weight: 400;
+      color: rgba(48, 48, 48, 1);
+      line-height: 36px;
     }
     .itemDesc:hover {
       color: #ff454f;
     }
     .itemTimer {
       margin-top: 5px;
-      font-size: 14px;
-      color: #6a6a6a;
-      overflow: hidden;
+      font-size: 24px;
+      font-weight: 400;
+      color: rgba(153, 153, 153, 1);
+      line-height: 36px;
     }
   }
-  .footer{
+  .footer {
     height: 200px;
     overflow: hidden;
     background: rgba(24, 24, 24, 1);
     .banxin {
       margin-top: 45px;
-      color:#919191;
-      font-size:16px;
-font-family:Lantinghei SC;
-font-weight:bold;
-color:rgba(145,145,145,1);
-line-height:30px;
-text-align: center;
+      color: #919191;
+      font-size: 16px;
+      font-family: Lantinghei SC;
+      font-weight: bold;
+      color: rgba(145, 145, 145, 1);
+      line-height: 30px;
+      text-align: center;
     }
   }
 }

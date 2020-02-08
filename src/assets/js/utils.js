@@ -30,6 +30,50 @@ export const setStore = (name, content) => {
   window.localStorage.setItem(name, content);
 }
 
+  /**
+ * 格式化时间戳
+ * 
+ * @param 时间戳
+ *        传入日期
+ * @return 08月17日 16:32
+ */
+export const  dateFormatCustom=(date)=> {
+    var timer = date != null ? new Date(date) : new Date();
+    var y = timer.getFullYear();
+    var M = timer.getMonth() + 1;
+    var d = timer.getDate();
+    var h = timer.getHours();
+    var m = timer.getMinutes();
+    var s = timer.getSeconds();
+    M = M < 10 ? "0" + M : M;
+    d = d < 10 ? "0" + d : d;
+    h = h < 10 ? "0" + h : h;
+    m = m < 10 ? "0" + m : m;
+    s = s < 10 ? "0" + s : s;
+    return M + "月" + d + "日 " + h + ":" + m;
+  }
+  /**
+ * 格式化时间戳
+ * 
+ * @param 时间戳
+ *        传入日期
+ * @return 2018-08-17 16:32:27
+ */
+export const  dateFormat=(date)=> {
+    var timer = date != null ? new Date(date) : new Date();
+    var y = timer.getFullYear();
+    var M = timer.getMonth() + 1;
+    var d = timer.getDate();
+    var h = timer.getHours();
+    var m = timer.getMinutes();
+    var s = timer.getSeconds();
+    M = M < 10 ? "0" + M : M;
+    d = d < 10 ? "0" + d : d;
+    h = h < 10 ? "0" + h : h;
+    m = m < 10 ? "0" + m : m;
+    s = s < 10 ? "0" + s : s;
+    return y + "-" + M + "-" + d + " " + h + ":" + m + ":" + s;
+  }
 /**
 * 获取localStorage
 */
