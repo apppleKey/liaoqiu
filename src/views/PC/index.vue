@@ -1,12 +1,10 @@
 <template>
   <div class="pc_container">
-    <!-- <div  id='header'></div> -->
     <Header v-if='isShowHeader'/>
     <div class="router">
       <router-view />
     </div>
     <Footer v-if="isShowFooter"/>
-    <!-- <div  id='footer'></div> -->
   </div>
 </template>
 <script>
@@ -34,15 +32,6 @@ export default {
       });
       this.isShowHeader=true;
       this.isShowFooter=true;
-      // var headerTag=this.$route.meta.headerTag
-      // axios
-      //   .get("/index.php?g=Front&m=Index&a=getHeaderFooter&module=")
-      //   .then(result => {
-      //     $('#header').replaceWith(result.data.header) ;
-      //     $('#footer').replaceWith(result.data.footer) ;
-      //       $('#header_'+headerTag).attr('class','curr');
-          
-      //   });
     }else{
         this.isNext=true
     }

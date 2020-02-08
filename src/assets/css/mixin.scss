@@ -113,3 +113,8 @@ $catch: #FF454F;
 	justify-content: space-between;
     align-items: center;
 }
+@mixin rule {
+    position: relative;
+    width: 100%;
+    height: auto;
+}

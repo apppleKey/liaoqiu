@@ -1,50 +1,50 @@
 <template>
-  <div class="h5_container">
-    <div  id='header'></div>
-      <router-view />
-    <div  id='footer'></div>
+  <div class="pc_container">
+    <Header v-if="isShowHeader" />
+    <div class="router">
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive" />
+    </div>
+    <Footer v-if="isShowFooter" />
   </div>
 </template>
 <script>
+import Header from "@/views/H5/components/header.vue";
+import Footer from "@/views/H5/components/footer.vue";
+
 export default {
+  components: { Header, Footer },
   data() {
     return {
-      isNext:false
+      isNext: false,
+      isShowHeader: false,
+      isShowFooter: false
     };
   },
   created() {
-      this.$store.dispatch("freshToken")
+    // debugger
+    // this.$store.dispatch("freshToken")
   },
   mounted() {
-    // if (this.$route.meta.needHeaderFooter) {
-    //   $(".router").css({
-    //     "pading-top": "80px",
-    //     height: "100%"
-    //   });
-    //   var headerTag=this.$route.meta.headerTag
-    //   axios
-    //     .get("/index.php?g=Front&m=Index&a=getHeaderFooter&module=")
-    //     .then(result => {
-    //       $('#header').replaceWith(result.data.header) ;
-    //       $('#footer').replaceWith(result.data.footer) ;
-    //           $('#header_'+headerTag).attr('class','curr');
-          
-    //     });
-    // }else{
-    //     this.isNext=true
-    // }
-     var clientWidth = document.documentElement.clientWidth;
-
-      document.documentElement.style.fontSize =
-        document.documentElement.clientWidth / 20 + "px";
+    // console.log(this.$route.meta.keepAlive,'isalive')
+    if (this.$route.meta.needHeaderFooter) {
+      this.isShowHeader = true;
+      this.isShowFooter = true;
+      this.$nextTick(() => {
+        $(".router").css({
+          "padding-top": $("#header").height() + "px",
+          "min-height": "800px"
+        });
+      });
+    } else {
+      this.isNext = true;
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
-.h5_container{
-  height: 100%;
-    // background-color: red;
-}
 </style>
 
 

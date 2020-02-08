@@ -45,11 +45,15 @@ export default {
     };
   },
   created() {
+    this.$indicator.open();
+
     this.$http
       .get("/index.php?g=H5&m=News&a=newsDetail", {
         params: { id: this.$route.params.id }
       })
       .then(res => {
+    this.$indicator.close();
+
         this.newsInfo = res.data;
         // console.log(res.data);
         this.title = res.data.siteSeoTitle;
@@ -57,6 +61,8 @@ export default {
         this.commentList = res.data.commentList || [];
         this.loaded=true;
       }).catch(err=>{
+    this.$indicator.close();
+
           this.loadedErr=true;
           console.log(err)
       });
@@ -105,7 +111,8 @@ export default {
     margin-bottom: 20px;
   }
   .news_comment {
-    padding: 40px 0;
+        padding: 0px 0 40px;
+
   }
   .comment_list_conn {
     .ltitle {

@@ -8,24 +8,38 @@ import store from '@/store/index.js'
 const newVue = new Vue()
 const router = new VueRouter({
   // mode: 'history',
-  routes: [
-    {path:'/',redirect:'/PC/index'}
-    ,
+  routes: [{
+      path: '/',
+      redirect: '/PC/index'
+    },
     {
-      path: "/h5",
-      name: "app",
+      path: "/H5",
+      name: "h5_index",
       component: resolve => require(['@/views/H5/index.vue'], resolve),
       meta: {
         needLogin: false
       },
-      children:[ {
-        path: "search",
-        name: "h5-search",
-        component: resolve => require(['@/views/H5/search/search.vue'], resolve),
+      children: [{
+        path: "index",
+        name: "h5-home",
+        component: resolve => require(['@/views/H5/home.vue'], resolve),
         meta: {
-          needLogin: false
+          needLogin: false,
+          needHeaderFooter: true,
+          keepAlive: true
+
         }
-    }]},
+
+      }, , {
+        path: "plan/:id",
+        name: "planDetails",
+        component: resolve => require(['@/views/H5/plan/details.vue'], resolve),
+        meta: {
+          needLogin: false,
+          needHeaderFooter: true
+        }
+      }]
+    },
     {
       path: "/PC",
       name: "PC",
@@ -34,30 +48,30 @@ const router = new VueRouter({
         needLogin: false
       },
       children: [{
-          path: "index",
-          name: "home",
-          component: resolve => require(['@/views/PC/home.vue'], resolve),
-          meta: {
-            needLogin: false,
-            needHeaderFooter: true
-          }
-        },{
-          path: "news/:id",
-          name: "newsDetails",
-          component: resolve => require(['@/views/PC/news/details.vue'], resolve),
-          meta: {
-            needLogin: false,
-            needHeaderFooter: true
-          }
-        },,{
-          path: "plan/:id",
-          name: "planDetails",
-          component: resolve => require(['@/views/PC/plan/details.vue'], resolve),
-          meta: {
-            needLogin: false,
-            needHeaderFooter: true
-          }}
-      ]
+        path: "index",
+        name: "home",
+        component: resolve => require(['@/views/PC/home.vue'], resolve),
+        meta: {
+          needLogin: false,
+          needHeaderFooter: true
+        }
+      }, {
+        path: "news/:id",
+        name: "newsDetails",
+        component: resolve => require(['@/views/PC/news/details.vue'], resolve),
+        meta: {
+          needLogin: false,
+          needHeaderFooter: true
+        }
+      }, , {
+        path: "plan/:id",
+        name: "planDetails",
+        component: resolve => require(['@/views/PC/plan/details.vue'], resolve),
+        meta: {
+          needLogin: false,
+          needHeaderFooter: true
+        }
+      }]
     },
     {
       path: "*",
