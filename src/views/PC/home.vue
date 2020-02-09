@@ -1,5 +1,6 @@
 <template>
   <div class="pc_container">
+    <Header></Header>
     <div class="banner_conn">
       <div class="banner">
         <swiper :options="swiperOption">
@@ -129,12 +130,15 @@ height:120px;"
         <loading :loadingStatus="planLoadingStatus" @loadmore="getMorePlan" />
       </div>
     </div>
+    <Footer v-if="loaded"></Footer>
   </div>
 </template>
 <script>
 import loading from "@/componets/loading.vue";
+import Header from "@/views/PC/components/header.vue";
+import Footer from "@/views/PC/components/footer.vue";
 export default {
-  components: { loading },
+  components: { loading, Header, Footer },
   data() {
     return {
       bannerOpt: [
@@ -171,7 +175,8 @@ export default {
       planPage: 0,
       planLoadingStatus: 0,
       planList: [],
-      planPagesize: 10
+      planPagesize: 10,
+      loaded: false
     };
   },
   created() {
@@ -194,10 +199,10 @@ export default {
           params: { page: this.newsPage, size: this.newsPagesize }
         })
         .then(res => {
+          this.loaded = true;
           this.newsLoadingStatus = 2;
           //   console.log(1111111, res.data.list);
           this.newsList = res.data.list || [];
-
           if (this.newsList.length == 0) {
             this.newsLoadingStatus = 4; //暂无数据
           } else if (this.newsList.length < this.newsPagesize) {
@@ -207,6 +212,7 @@ export default {
           }
         })
         .catch(err => {
+          this.loaded = true;
           this.newsLoadingStatus = 10; //加载错误
           console.log(err);
         });
@@ -220,6 +226,8 @@ export default {
           params: { page: this.newsPage, size: this.newsPagesize }
         })
         .then(res => {
+
+          this.loaded=true;
           var list = res.data.list || [];
           var length = list.length;
           if (length == 0) {
@@ -233,6 +241,7 @@ export default {
           }
         })
         .catch(err => {
+          this.loaded=true;
           this.newsLoadingStatus = 10;
           this.newsPage -= 1;
           console.log(err);
@@ -629,21 +638,7 @@ export default {
       line-height: 36px;
     }
   }
-  .footer {
-    height: 200px;
-    overflow: hidden;
-    background: rgba(24, 24, 24, 1);
-    .banxin {
-      margin-top: 45px;
-      color: #919191;
-      font-size: 16px;
-      font-family: Lantinghei SC;
-      font-weight: bold;
-      color: rgba(145, 145, 145, 1);
-      line-height: 30px;
-      text-align: center;
-    }
-  }
+
 }
 </style>
 

@@ -1,24 +1,26 @@
 <template>
   <div class="plan_detail">
-    <div class="head" @click="showAnchor(anchorInfo.uid)">
+    <Header />
+    <div class="head" @click="showAnchor(anchorInfo.uid)" v-if="loaded">
       <div class="avatar">
         <img v-lazy="anchorInfo.avatar" />
       </div>
       <div class="infos">
-        <div class="name">
-          {{anchorInfo.username}}
-          <div class="win_rate" v-if="anchorInfo.winRate">
-            胜率
-            <span>{{anchorInfo.winRate}}%</span>
-          </div>
+        <div class="win_rate" v-if="anchorInfo_winRate">
+          胜率
+          <span>{{anchorInfo_winRate}}%</span>
         </div>
-        <div class="introduce" v-if="false">{{anchorInfo.introduction}}</div>
+        <div class="name">{{anchorInfo.username}}</div>
+        <p class="prob">
+          <span v-for="(item,ii) in winLabelList" :key="'winLabelList' + ii">{{item.content}}</span>
+        </p>
       </div>
     </div>
     <div class="title">{{detail.planTitle}}</div>
     <p class="time">{{detail.timeDistance}}</p>
     <div class="divide"></div>
-    <div class="content">
+
+    <div class="content" style="border-top: 30px solid #f6f6f6;min-height:5rem;" v-if="loaded">
       <div class="content_top">
         <div class="infos">
           <span
@@ -49,19 +51,7 @@
         </div>
         <div class="commond" :class="detail.planStatus">
           <span class="commond_text">
-            <svg
-              t="1578040157121"
-              class="icon"
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              p-id="2743"
-            >
-              <path
-                d="M121.173333 17.066667v979.626666L512 831.146667l390.826667 165.546666V17.066667H121.173333z m184.32 232.106666c23.893333 1.706667 44.373333 1.706667 59.733334 1.706667h59.733333c0-13.653333 0-29.013333-1.706667-46.08H462.506667c-1.706667 17.066667-1.706667 32.426667-1.706667 46.08h112.64c0-13.653333 0-29.013333-1.706667-46.08h39.253334c-1.706667 17.066667-1.706667 32.426667-1.706667 46.08h61.44c15.36 0 37.546667 0 64.853333-1.706667v35.84c-25.6-1.706667-47.786667-1.706667-64.853333-1.706666h-61.44c0 6.826667 0 18.773333 1.706667 37.546666h-39.253334c1.706667-15.36 1.706667-29.013333 1.706667-37.546666H460.8c0 8.533333 0 22.186667 1.706667 37.546666H423.253333c1.706667-17.066667 1.706667-29.013333 1.706667-37.546666h-59.733333c-15.36 0-34.133333 0-59.733334 1.706666v-35.84zM426.666667 662.186667h-40.96c1.706667-23.893333 1.706667-47.786667 1.706666-71.68v-102.4l-3.413333 3.413333C363.52 512 344.746667 529.066667 324.266667 546.133333c-3.413333 3.413333-8.533333 6.826667-11.946667 10.24-6.826667-11.946667-17.066667-23.893333-29.013333-35.84 0 0 1.706667 0 1.706666-1.706666 27.306667-15.36 54.613333-34.133333 80.213334-56.32 6.826667-5.12 11.946667-11.946667 17.066666-17.066667 18.773333-18.773333 35.84-37.546667 51.2-58.026667h-61.44c-17.066667 0-39.253333 0-64.853333 1.706667v-35.84h1.706667v-1.706667c23.893333 1.706667 42.666667 1.706667 59.733333 1.706667h87.04c8.533333-15.36 17.066667-30.72 22.186667-47.786667 0 0 0-1.706667 1.706666-1.706666 15.36 8.533333 30.72 13.653333 47.786667 17.066666l-1.706667 1.706667c-1.706667 1.706667-5.12 3.413333-6.826666 5.12-6.826667 6.826667-13.653333 15.36-18.773334 23.893333h155.306667c20.48 0 44.373333 0 71.68-1.706666v35.84h-1.706667v1.706666c-27.306667-1.706667-51.2-1.706667-71.68-1.706666H479.573333c-15.36 18.773333-32.426667 40.96-52.906666 64.853333v138.24c0 23.893333 0 47.786667 1.706666 71.68H426.666667v1.706667z m310.613333-117.76c-23.893333-1.706667-47.786667-1.706667-71.68-1.706667h-47.786667v75.093333c0 17.066667-6.826667 29.013333-18.773333 34.133334-13.653333 5.12-35.84 10.24-66.56 11.946666h-1.706667c0-10.24-6.826667-23.893333-17.066666-40.96h1.706666c22.186667 1.706667 39.253333 1.706667 47.786667 1.706667 10.24 0 15.36-6.826667 15.36-22.186667v-59.733333h-73.386667-52.906666-1.706667v-35.84h1.706667c18.773333 1.706667 37.546667 1.706667 56.32 1.706667h69.973333c0-8.533333 0-17.066667-1.706667-25.6 18.773333-8.533333 35.84-17.066667 51.2-29.013334h-90.453333c-20.48 0-40.96 0-63.146667 1.706667h-1.706666v-35.84h1.706666c22.186667 1.706667 44.373333 1.706667 66.56 1.706667H708.266667v30.72c-15.36 3.413333-29.013333 8.533333-42.666667 15.36-13.653333 8.533333-29.013333 17.066667-46.08 27.306666v13.653334H665.6c23.893333 0 47.786667 0 71.68-1.706667v37.546667z"
-                p-id="2744"
-              />
-            </svg>
+            <img class="reco_icon" :src="'./static/images/h5/recormend.png'" alt />
           </span>
           <div class="content">{{detail.planContent}}</div>
         </div>
@@ -74,23 +64,47 @@
           v-if="detail.planAnalysis && detail.planAnalysis != ''"
           v-html="detail.planAnalysis"
         ></div>
-        <div class="no_commond_text" v-else>暂无推荐理由</div>
+        <div class="no_commond_text" v-else-if="loaded">暂无推荐理由</div>
+      </div>
+    </div>
+    <div class="comment_conn" v-if='loaded'>
+      <div class="c_header"></div>
+      <div class="comment_list"></div>
+      <div class="comment_nodata">
+        <img class="sofaIcon" :src="'./static/images/h5/sofa.png'" alt />
+        <p>还没有人发表评论,赶快来抢占沙发吧！</p>
+      </div>
+      <div class="comment_short">
+        <div class="c_write" @click="$toast('暂未开放，敬请期待')">
+          <img :src="'./static/images/h5/write.png'" alt /> 写评论
+        </div>
+        <div class="c_count">
+          <img :src="'./static/images/h5/pinglun.png'" alt />
+          0
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Header from "@/views/H5/components/planHeader.vue";
 export default {
+  components: {
+    Header
+  },
   data() {
     return {
       id: {
         type: String,
         default: "1"
       },
+      anchorInfo_winRate: this.$route.query.winRate,
+      winLabelList: JSON.parse(this.$route.query.winLabelList),
       anchorInfo: {},
       detail: {},
-      focused: false
+      focused: false,
+      loaded: false
     };
   },
   watch: {
@@ -108,9 +122,6 @@ export default {
       this.$indicator.open();
       this.$http
         .get("/live/api/news/plan/get_plan_details_info", {
-          headers: {
-            "Content-Type": "application/json"
-          },
           params: {
             planId: this.$route.params.id
           }
@@ -119,7 +130,7 @@ export default {
           // console.log(res.data.data.anchorPlanDetailsInfo.planDetailsInfo.planAnalysis.indexOf('↵'))
           // res.data.data.anchorPlanDetailsInfo.planDetailsInfo.planAnalysis.replace('/\n/\r'/g,"<br>")
           this.$indicator.close();
-
+          this.loaded = true;
           this.anchorInfo = res.data.anchorPlanDetailsInfo.anchorInfo;
           this.detail = res.data.anchorPlanDetailsInfo.planDetailsInfo;
           this.focused =
@@ -127,10 +138,12 @@ export default {
         })
         .catch(err => {
           this.$indicator.close();
+          this.loaded = true;
           console.log(err);
         });
     },
     showAnchor(id) {
+      return;
       if (navigator.userAgent.indexOf("kinglive") > -1) {
         let data = {
           html_url: window.location.origin + "/H5/page/#/anchor?id=" + id,
@@ -175,11 +188,11 @@ export default {
   .head {
     position: relative;
     @include wh(100%, auto);
-    padding: 0 p2r(20);
+    padding:  p2r(20);
     @include fs;
     align-items: flex-start;
     .avatar {
-      @include rwh(80, 80);
+      @include rwh(100, 100);
       background: #f0f0f0;
       border-radius: 50%;
       @include fc;
@@ -193,18 +206,50 @@ export default {
       position: relative;
       flex: 1;
       margin-left: p2r(20);
+      .win_rate {
+        @include wh(auto, auto);
+        position: absolute;
+        right: 0;
+        font-size: p2r(28);
+        color: #666;
+        font: 1em sans-serif;
+        span {
+          display: inline-block;
+          @include wh(auto, p2r(50));
+          vertical-align: text-bottom;
+          font-size: p2r(50);
+          line-height: p2r(50);
+          color: #ff3542;
+          font-weight: bold;
+          margin-left: p2r(5);
+        }
+      }
       .name {
         @include wh(auto, p2r(36));
         line-height: p2r(36);
         font-size: p2r(30);
+        font-weight: 600;
         color: #131313;
       }
-      .introduce {
-        @include wh(auto, auto);
-        line-height: p2r(44);
-        font-size: p2r(28);
-        color: #999;
+      .prob {
+        position: relative;
+        @include wh(100, auto);
+        line-height: p2r(40);
+        text-align: left;
         word-break: break-all;
+        vertical-align: middle;
+        margin-top: ptr(20);
+        span {
+          display: inline-block;
+          @include wh(auto, p2r(40));
+          line-height: p2r(40);
+          padding: 0 p2r(13);
+          background: #ff3542;
+          color: #fff;
+          font-size: p2r(28);
+          margin-right: p2r(10);
+          border-radius: 2px;
+        }
       }
     }
     .focus {
@@ -230,6 +275,8 @@ export default {
     text-align: left;
     word-break: break-all;
     line-height: p2r(50);
+    font-weight: bold;
+    color: rgba(50, 50, 50, 1);
   }
   .time {
     @include rule;
@@ -237,7 +284,8 @@ export default {
     font-size: p2r(24);
     color: #666;
     font-weight: 400;
-    padding: 0 p2r(20) p2r(20) p2r(20);
+    padding: 0 0 ptr(20) p2r(20);
+    margin-bottom: ptr(20);
   }
   .content {
     @include rule;
@@ -248,9 +296,11 @@ export default {
       @include rule;
       .infos {
         @include rule;
-        padding: p2r(20) 0;
+        padding: 0 p2r(20) p2r(20) 0;
         // @include fc;
         // justify-content: flex-start;
+        font-weight: 600;
+        font-size: ptr(32);
         span.type {
           @include wh(auto, p2r(40));
           line-height: p2r(40);
@@ -317,13 +367,17 @@ export default {
           .team_name {
             @include wh(100%, auto);
             text-align: center;
+            font-size: ptr(28);
             @include omit(1);
+            font-weight: bold;
+            color: rgba(48, 48, 48, 1);
+            line-height: 36px;
           }
         }
         .vs_icon {
           margin: 0 p2r(30);
           text-align: center;
-          word-spacing: p2r(30);
+          word-spacing: p2r(-18);
           span {
             font-size: p2r(50);
             font-weight: 600;
@@ -343,6 +397,8 @@ export default {
         border-radius: 2px;
         padding: p2r(40) p2r(10);
         @include fc;
+        font-size: ptr(32);
+        font-weight: 600;
         &::after {
           content: "";
           position: absolute;
@@ -368,7 +424,7 @@ export default {
         }
         .commond_text {
           position: absolute;
-          left: p2r(20);
+          left: p2r(0);
           top: 0;
           @include wh(p2r(48), auto);
           svg {
@@ -376,6 +432,9 @@ export default {
             path {
               fill: #ff3456;
             }
+          }
+          .reco_icon {
+            @include wh(ptr(85), ptr(79));
           }
         }
         .content {
@@ -392,6 +451,7 @@ export default {
         @include wh(100%, p2r(100));
         @include fc;
         background: #fff;
+        font-size: ptr(36);
         .title {
           position: relative;
           @include wh(auto, auto);
@@ -414,6 +474,7 @@ export default {
       .text {
         @include rule;
         white-space: pre-wrap;
+        min-height: 9rem;
         img {
           max-width: 100% !important;
         }
@@ -430,6 +491,57 @@ export default {
         color: #999;
         text-align: center;
         line-height: p2r(60);
+        min-height: 9rem;
+      }
+    }
+  }
+
+  .comment_conn {
+    .comment_list {
+    }
+    .comment_nodata {
+      text-align: center;
+      margin: 30px auto;
+      .sofaIcon {
+        @include wh(ptr(137), ptr(85));
+      }
+      p {
+        font-size: ptr(24);
+        font-family: Lantinghei SC;
+        font-weight: 200;
+        line-height: ptr(48);
+        color: rgba(148, 148, 148, 1);
+      }
+    }
+    .comment_short {
+      font-size: ptr(38);
+      font-family: Lantinghei SC;
+      font-weight: 600;
+      color: rgba(65, 65, 65, 1);
+      height: ptr(101);
+      background: rgba(252, 252, 252, 1);
+      border: 1px solid rgba(223, 223, 223, 1);
+      box-shadow: 0px ptr(-8) ptr(29) 0px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      padding: 0 ptr(20);
+      .c_write {
+        display: flex;
+        align-items: center;
+        img {
+          width: ptr(50);
+          height: ptr(50);
+          margin-right: ptr(20);
+        }
+      }
+      .c_count {
+        display: flex;
+        align-items: center;
+        img {
+          width: ptr(50);
+          height: ptr(50);
+          margin-right: ptr(20);
+        }
       }
     }
   }

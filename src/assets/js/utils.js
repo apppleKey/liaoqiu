@@ -215,4 +215,10 @@ export const appInterface = (function(window){
 
 })(window)
 
- 
+export const getAgent= ()=>{
+  if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    return 'H5'
+  } else {
+    return "PC"
+  }
+}

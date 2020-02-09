@@ -1,5 +1,6 @@
 <template>
   <div class="h5_container">
+    <Header/>
     <div class="banner_conn">
       <div class="banner">
         <swiper :options="swiperOption">
@@ -42,18 +43,18 @@
       </div>
       <div class="lanmu_body">
         <div class="lanmu_list">
-          <a
-            :href="'#/H5/news/'+item.pid"
+          <router-link
+            :to="'/H5/news/'+item.pid"
             class="lanmu_item"
             v-for="item in newsList"
             :key="item.pid"
           >
-            <img class="info_img" :src="item.smeta.thumb" alt />
+            <img class="info_img" v-lazy="item.smeta.thumb" alt />
             <div class="li_info">
               <div class="li_title">{{item.post_title}}</div>
               <div class="info_txt">{{item.post_title}}</div>
             </div>
-          </a>
+          </router-link>
         </div>
         <loading :loadingStatus="newsLoadingStatus" @loadmore="getMoreNews" />
       </div>
@@ -80,13 +81,16 @@
         <loading :loadingStatus="planLoadingStatus" @loadmore="getMorePlan" />
       </div>
     </div>
+    <Footer/>
   </div>
 </template>
 <script>
 import loading from "@/views/H5/components/loading.vue";
 import Planlist from "@/views/H5/plan/planList.vue";
+import Header from "@/views/H5/components/header.vue";
+import Footer from "@/views/H5/components/footer.vue";
 export default {
-  components: { loading ,Planlist},
+  components: { loading ,Planlist,Footer,Header},
   data() {
     return {
       bannerOpt: [
@@ -128,7 +132,7 @@ export default {
   },
   created() {
     //   this.$store.dispatch("freshToken")
-    // this.getNews();
+    this.getNews();
     this.getPlan();
   },
   methods: {
@@ -339,7 +343,7 @@ export default {
           height: ptr(290);
           border: 1px solid rgba(238, 238, 238, 1);
           padding: ptr(31) ptr(22);
-          box-shadow: 4px 5px 5px #e4e2e2;
+          box-shadow:ptr(6) ptr(6) ptr(21) 0px rgba(0, 0, 0, 0.33);
           background: linear-gradient(
             0deg,
             rgba(246, 246, 246, 1) 0%,
@@ -579,21 +583,7 @@ export default {
       line-height: 36px;
     }
   }
-  .footer {
-    height: 200px;
-    overflow: hidden;
-    background: rgba(24, 24, 24, 1);
-    .banxin {
-      margin-top: 45px;
-      color: #919191;
-      font-size: 16px;
-      font-family: Lantinghei SC;
-      font-weight: bold;
-      color: rgba(145, 145, 145, 1);
-      line-height: 30px;
-      text-align: center;
-    }
-  }
+ 
 }
 </style>
 

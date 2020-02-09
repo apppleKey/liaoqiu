@@ -1,7 +1,7 @@
 <template>
   <ul class="plan_list">
     <template v-if="planList.length > 0">
-      <li class="plan_item" v-for="(item,i) in planList" :key="i">
+      <li class="plan_item" v-for="(item,i) in planList" :key="'plan_item'+i">
         <div tag="div" @click="gotoUser(item.anchorSummaryInfo.anchorInfo.uid)" class="top_info" v-if="type != 'anchor'">
           <div class="avatar_info">
             <div class="avatar">
@@ -64,6 +64,7 @@ export default {
   },
   methods:{
     gotoUser(uid){
+      return ;
       let data = {
         html_url: location.origin + "/H5/page/#/anchor?id=" + uid,
         title: '个人主页'
@@ -92,7 +93,7 @@ export default {
         case 'H5': 
         this.$router.push({
           path:'plan/'+pid,
-          query:{winRate:info.winRate,winLabelList:info.winLabelList}
+          query:{winRate:info.winRate,winLabelList:JSON.stringify(info.winLabelList||[])}
         })
         break
         case 'iOS':
@@ -123,8 +124,8 @@ export default {
     padding: p2r(20);
     border:1px solid rgba(238,238,238,1);
 background:linear-gradient(0deg,rgba(246,246,246,1) 0%,rgba(255,255,255,1) 100%);
-box-shadow:6px 6px 21px 0px rgba(0, 0, 0, 0.33);
-border-radius:6px;
+box-shadow:ptr(6) ptr(6) ptr(21) 0px rgba(0, 0, 0, 0.33);
+border-radius:ptr(6);
 margin-bottom: ptr(30);
     &:last-child .divide{
       display: none;
@@ -132,7 +133,6 @@ margin-bottom: ptr(30);
     .top_info{
       position: relative;
       @include wh(100%,auto);
-      padding: 0 p2r(30);
       @include fs;
       .avatar_info{
         position: relative;

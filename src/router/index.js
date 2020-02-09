@@ -1,7 +1,8 @@
 import {
   getStore,
   setStore,
-  appInterface
+  appInterface,
+  getAgent
 } from "@/assets/js/utils.js";
 
 import store from '@/store/index.js'
@@ -32,11 +33,19 @@ const router = new VueRouter({
 
       }, , {
         path: "plan/:id",
-        name: "planDetails",
+        name: "h5_planDetails",
         component: resolve => require(['@/views/H5/plan/details.vue'], resolve),
         meta: {
           needLogin: false,
-          needHeaderFooter: true
+          needHeaderFooter: false
+        }
+      }, {
+        path: "news/:id",
+        name: "h5_newsDetails",
+        component: resolve => require(['@/views/H5/news/details.vue'], resolve),
+        meta: {
+          needLogin: false,
+          needHeaderFooter: false
         }
       }]
     },
@@ -53,7 +62,9 @@ const router = new VueRouter({
         component: resolve => require(['@/views/PC/home.vue'], resolve),
         meta: {
           needLogin: false,
-          needHeaderFooter: true
+          needHeaderFooter: true,
+          keepAlive: true
+
         }
       }, {
         path: "news/:id",
@@ -86,6 +97,11 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  if(getAgent()==='H5'&&/PC/.test(to.path)){
+    return router.replace(to.path.replace('PC','H5'))
+  }else if(getAgent()==='PC'&&/H5/.test(to.path)){
+    return router.replace(to.path.replace('H5','PC'))
+  }
   if (to.meta.needLogin) {
     const token = store.state.userinfo.token || '';
 

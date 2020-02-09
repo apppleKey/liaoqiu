@@ -11,13 +11,13 @@
   overflow: hidden;
   background: rgba(24, 24, 24, 1);
   .copyright {
-    margin: 45px auto;
+    margin: 0px auto;
     color: #919191;
     font-size: 16px;
     font-family: Lantinghei SC;
     font-weight: bold;
     color: rgba(145, 145, 145, 1);
-    line-height:80px;
+    line-height:200px;
     text-align: center;
   }
 }

@@ -1,8 +1,10 @@
 <template>
-  <div class="plan_details_page banxin">
+  <div class="plan_details_page ">
+    <Header></Header>
+    <div class="banxin" v-if="loaded">
     <h1 class="recommendTitle">{{planInfo.planTitle}}</h1>
 			<strong class="recommendTimer">发布时间：{{dateFormat(planInfo.createTimestamp)}}</strong>
-			<div class="recommendContant">
+			<div class="recommendContant ">
 				<div class="recommendOther">
 					<strong :class="'itemEventTag itemEventTag_'+planInfo.playType" v-show='planInfo.playTypeContent'>{{planInfo.playTypeContent}}</strong>
 					<span class="itemEventName">{{planInfo.leagueMatch}}</span>
@@ -55,16 +57,22 @@
         </div>
       </div>
     </div>
-    <Comment class="banxin plan_comment" @submit="submitComent" v-if="loaded" />
     <div class="data_err" v-if="loadedErr">抱歉，该内容不存在~</div>
+    <Comment class="banxin plan_comment" @submit="submitComent" v-if="loaded" />
+    </div>
+    <Footer v-if="loaded"> </Footer>
   </div>
 </template>
 <script>
+import Header from "@/views/PC/components/header.vue";
+import Footer from "@/views/PC/components/footer.vue";
 import Comment from "@/views/PC/components/send_comment.vue";
 import {dateFormatCustom,dateFormat} from "@/assets/js/utils.js";
 export default {
   components: {
-    Comment
+    Comment,
+    Header,
+    Footer
   },
   data() {
     return {
@@ -145,11 +153,22 @@ border-radius:20px;margin-right:20px;}
 .recommendBox{border:1px solid #F1F1F1;text-align:center;border-radius:4px;margin-top:10px;height:68px;line-height:68px;font-size:36px;color:#FF454F;font-weight:normal;position:relative;padding:0 78px;}
 .recommendBox .recommendIcon{position:absolute;top:0;left:0;display:block;width: 68px;}
 .recommendBox .recommendStamp{position:absolute;top:0;right:0;display:block;}
-.recommendReason{overflow:hidden;margin:15px auto 0;}
+.recommendReason{overflow:hidden;margin:15px auto 0;min-height: 600px}
 .recommendReason dt{overflow:hidden;text-align:center;position:relative;width:720px;margin:0 auto 15px;}
 .recommendReason dt strong{font-weight:normal;font-size: 36px; display:block;margin:0 auto;background:#fff;color:rgba(99,99,99,.8);; width:200px;height:46px;line-height:46px;overflow:hidden;position:relative;z-index:9;}
 .recommendReason dt:after{content:'';height:1px;width:100%;position:absolute;top:0;left:0;right:0;bottom:0;border-bottom:4px dashed #e5e5e5;margin:auto;overflow:hidden;}
-.recommendReason dd{overflow:hidden;font-size:24px;color:#6A6A6A;line-height:24px;}
+.recommendReason dd{overflow:hidden;font-size:24px;color:#6A6A6A;
+line-height:24px;
+img {
+          max-width: 100% !important;
+        }
+        video {
+          max-width: 100% !important;
+        }
+        iframe {
+          max-width: 100% !important;
+        }
+}
   .plan_comment {
     padding: 0px 0 40px;
   }

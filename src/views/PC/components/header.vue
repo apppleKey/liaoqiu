@@ -1,6 +1,7 @@
 <template>
-<div class="header">
-        <div class="nav">
+  <div class="header_blank">
+    <div class="header">
+      <div class="nav">
         <a href="/" target="_self">
           <img class="logo" :src="'./static/images/logo.png'" alt />
         </a>
@@ -9,24 +10,26 @@
           <img class="loginlogo" :src="'./static/images/login.png'" alt />
         </div>
       </div>
-</div>
-  
+    </div>
+  </div>
 </template>
 <style lang="scss" scoped>
-.header{
+.header_blank {
+  height: 169px;
+  .header {
+    height: 169px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 5000;
      background: #181818;
-     position: fixed;
-     left: 0;
-     top: 0;
-     right: 0;
-     z-index: 5000;
-
     .nav {
       height: 169px;
       width: 1452px;
       margin: 0 auto;
-      background: url("../../../../static/images/lang.png") no-repeat 690px top /
-        607px 251px;
+      background: #181818 url("../../../../static/images/lang.png") no-repeat
+        690px top / 607px 251px;
       .logo {
         margin-top: 54px;
         width: 553px;
@@ -50,6 +53,6 @@
         }
       }
     }
+  }
 }
-  
 </style>
